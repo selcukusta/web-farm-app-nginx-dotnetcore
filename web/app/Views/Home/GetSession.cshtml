@@ -1,0 +1,16 @@
+﻿
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>GetSession</title>
+</head>
+<body>
+    <a href="@Url.Action("SetSession")">Set Session</a>
+    <hr />
+    @Html.Raw(ViewData["InnerHtml"])
+</body>
+</html>

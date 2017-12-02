@@ -1,0 +1,52 @@
+version: "2"
+services:
+  ################################################
+  farmexampleapp_1:
+    image: selcukusta/farm-example-app:1.0.0
+    environment:
+      - ASPNETCORE_URLS=http://*:1905
+      - X_BACKEND_SERVER=SRV01
+    depends_on:
+      - sessiondb
+    links:
+      - sessiondb:sessiondb
+  ################################################
+  farmexampleapp_2:
+    image: selcukusta/farm-example-app:1.0.0
+    environment:
+      - ASPNETCORE_URLS=http://*:1905
+      - X_BACKEND_SERVER=SRV02
+    depends_on:
+      - sessiondb
+    links:
+      - sessiondb:sessiondb
+  ################################################
+  farmexampleapp_3:
+    image: selcukusta/farm-example-app:1.0.0
+    environment:
+      - ASPNETCORE_URLS=http://*:1905
+      - X_BACKEND_SERVER=SRV03
+    depends_on:
+      - sessiondb
+    links:
+      - sessiondb:sessiondb
+  ################################################
+  proxy:
+    image: selcukusta/farm-example-proxy:1.0.0
+    ports:
+      - '8080:8080'
+    depends_on:
+      - farmexampleapp_1
+      - farmexampleapp_2
+      - farmexampleapp_3
+    links:
+      - farmexampleapp_1:farmexampleapp1
+      - farmexampleapp_2:farmexampleapp2
+      - farmexampleapp_3:farmexampleapp3
+  ################################################
+  sessiondb:
+    image: redis:latest
+    ports:
+      - '6379:6379'
+    expose:
+      - "6379"
